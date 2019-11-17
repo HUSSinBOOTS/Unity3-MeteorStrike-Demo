@@ -52,6 +52,9 @@
 48. Rescale the background. X15 Y35
 49. The background is washed out. On the `Background` Shader, change the Shader of the texture.  Select `Unlit > Texture`. The background is now independent of the lighting system we have. It displays the image in its exact form.
 50. Move the background down at the y axis (Y-10)
+------------------------------------------------------------------
+Meteor Strike Task 1
+------------------------------------------------------------------
 51. -----------Moving the Player----------
 52. Create a new folder to store `Scripts`
 53. On the `Player` game object in the Hierarchy, create a new `PlayerController` script. 
@@ -128,7 +131,9 @@
 	rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tiltValue);
     }
 ```
-
+------------------------------------------------------------------
+Meteor Strike Task 2
+------------------------------------------------------------------
 66. Set the tilt value from the inspector now.
 67. ----------- 06 Creating Shots----------
 68. Deactivate the player game object
@@ -214,6 +219,9 @@ public class Mover : MonoBehaviour {
     }
 ```
 104. Test the game and show that the bolt clones are now being destroyed. 
+------------------------------------------------------------------
+Meteor Strike Task 3
+------------------------------------------------------------------
 105. ----------09 Creating Hazards----------
 106. Create new empty game object. Name it `Asteroid`
 107. Move it somewhere ahead of the player. In `Assets/Models`, Choose any asteroid, then drag it onto the `Asteroid` game object.
@@ -301,6 +309,9 @@ public class Mover : MonoBehaviour {
 ```
 123. Now, tag the player game object to be "Player". Add the  explosion_player to the reference of the script.
 124. To make the `Asteroid` move towards the player, attach the `Mover.cs` script to it. Change the speed to -5. That takes care of it. Play the game to show that `Mover` did. Prefab the Asteroid. Delete it from the Hiearchy. Our asteroid is set up and ready to be spawned.
+------------------------------------------------------------------
+Meteor Strike Task 4
+------------------------------------------------------------------
 125. ----------11  Game Controller----------
 126. Create new empty game object and rename it to `GameController`. Reset the transform. Tag it as `GameController`. Add a script to it and name it `GameController`. This script will be in charge of spawning hazards in our game.
 ```
@@ -383,6 +394,9 @@ public class Mover : MonoBehaviour {
     }
 ```
 138. Attach the `DestroyByTime.cs` script on all explosions. Give a lifetime of 2.
+------------------------------------------------------------------
+Meteor Strike Task 5
+------------------------------------------------------------------
 139. ----------13  Audio ----------
 140. Audio folder in assets with Audio Clips 
 141. Drag explosion asteroid clip onto the explosion asteroid prefab. Play on Awake should be checked. Do the same for the player explosion.
@@ -409,3 +423,52 @@ public class Mover : MonoBehaviour {
 ```
 
 Drag and drop the `music_background` onto the `GameController` object to play background music.
+
+----------13  Scoreboard ----------
+
+In `GameController.cs`:
+
+```
+	[SerializeField] Text scoreText;
+
+	//Variables
+	private int score;
+	
+	...
+	
+	public void AddScore(int newScoreValue){
+		score += newScoreValue;
+		scoreText.text = "Score: " + score;
+	}
+```
+Make the method public so that we can reference and use it in another script.
+In the game Hierarchy, create a Text UI. Place the text in an appropriate place on the canvas. Drag and drop the Text object onto the SerializeField in the `GameController.cs`.
+
+In `DestroyByContact`.cs:
+
+```
+ private GameController gc;
+ 
+    void Start()
+    {
+        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+        gc = GetComponent<GameController>();
+    }
+ ...
+ 
+     void OnTriggerEnter(Collider other)
+    {
+        if (...)
+        {
+            ...;
+        }
+        if (...)
+        {
+            ...
+        }
+        gc.AddScore(10);
+	...
+	...
+	...
+    }
+```
