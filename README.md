@@ -60,7 +60,7 @@ Meteor Strike Task 1
 53. On the `Player` game object in the Hierarchy, create a new `PlayerController` script. 
 54. Save it in the scripts folder
 55. Open the script
-56. Remove `Update` and use Fixed Update instead (look up the difference here) (REVIEW)
+56. Remove `Update` and use Fixed Update instead (look up the difference and show them)
 57. Fixed update will be called automatically by unity before each physics step
 ```
     //Components
@@ -83,11 +83,10 @@ Meteor Strike Task 1
 	Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 	rb.velocity = movement * speed;
     }
-
-	```
+```
 58. The axis Horizontal and Vertical are preset in the input manager (show that to them).
 59. Great, but now if we play the game, the ship is slow. Let's move it faster by adding speed
-	```
+```
 	//Components 
 	...
 
@@ -101,12 +100,12 @@ Meteor Strike Task 1
 
 	...
 	 rb.velocity = movement * speed;
-	```
+```
 60. Now we have a problem. The player ship can leave the area. We need to lock the ship into position.
 61. Google C# `Mathf`.  It has a bunch of methods. We need a method called `Clamp`. It basically sets boundaries.
 62.  What values to set for xMinMax and zMinMax? Play the game and see where the ship stops
 
-	```
+```
 	    //SerializeFields
 	    [SerializeField] private float speed;
 	    [SerializeField] private float xMin, xMax, zMin, zMax;
@@ -116,11 +115,12 @@ Meteor Strike Task 1
 		float clampZ = Mathf.Clamp(rb.position.z, zMin, zMax);
 		rb.position = new Vector3(clampX, 0.0f, clampZ);
 	    }
-	```
+```
 
 63. Call `clampPosition` in the `FixedUpdate()` method.
 64. When it comes to the Z min max, back up a little bit to give room for the comets to come flying in
 65. Create a `tilt()` method. Call it in the `FixedUpdate()` method. Quaternion.Euler returns a rotation.
+
 ```
 //SerializeFields
     [SerializeField] private float tiltValue;
@@ -168,7 +168,8 @@ public class Mover : MonoBehaviour {
     void Update () {
 
     }
-}```
+}
+```
 84. Set the speed from the inspector and play the game. The bullet now moves.
 85. Prefab the bolt by dragging it and dropping it inside the `Assets/Prefabs` folder.
 86. Delete `Bolt` form the Hierarchy as we only want it when the player shoots.
@@ -208,7 +209,7 @@ public class Mover : MonoBehaviour {
 96. Try the game. If the bullets are slow, change the `Bolt` prefab speed. Adjust `Player` fire rate so that it is appropriate (about 0.1 was good). 
 97. We can shoot, but we are filling our scene with endless instances. We need to create a boundary.
 98. ----------08 Boundary----------
-99. Create a cube in the hierarchy. Rename it to `Bondary` and reset its transformation. In the box collider component, select `Is Trigger`
+99. Create a cube in the hierarchy. Rename it to `Boundary` and reset its transformation. In the box collider component, select `Is Trigger`
 100. Adjust the scale of the `Boundary` so that it is placed evenly around the game area. Turn off the mesh renderer. 
 101. Attach a script to `Boundary` and rename it destroy by boundary. 
 102. Show the`OnTriggerExit` from the Unity documentation .
