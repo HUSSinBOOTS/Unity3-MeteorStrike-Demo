@@ -453,7 +453,7 @@ In `DestroyByContact`.cs:
     void Start()
     {
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
-        gc = GetComponent<GameController>();
+        gc = gameControllerObject.GetComponent<GameController>();
     }
  ...
  
